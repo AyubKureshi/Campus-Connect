@@ -1,7 +1,9 @@
 const express = require('express');
 const wrapAsync = require('../backend/utils/wrapasync.js');
+const connectToDb = require('./db/dbConnect');
 
 const app = express();
+connectToDb();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
