@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -37,7 +38,10 @@ const Login = () => {
         <input
           {...register("password", {
             required: "Password is required",
-            minLength: { value: 8, message: "Password must be atleast 8 characters" }
+            minLength: {
+              value: 8,
+              message: "Password must be atleast 8 characters",
+            },
           })}
           type="password"
           placeholder="Password"
@@ -46,12 +50,17 @@ const Login = () => {
         {errors.password && (
           <p className="text-sm text-red-600">{errors.password.message}</p>
         )}
-        <button type="submit" className="px-4 py-2 mt-3 bg-blue-400 rounded-lg">
+        <button
+          type="submit"
+          className="cursor-pointer px-4 py-2 mt-3 bg-blue-400 rounded-lg"
+        >
           Login
         </button>
         <p className="mt-2">
           Don't have an account?{" "}
-          <span className="text-blue-600">Register here</span>
+          <Link to={"/register"} className="text-blue-600">
+            Register here
+          </Link>
         </p>
       </form>
     </div>
