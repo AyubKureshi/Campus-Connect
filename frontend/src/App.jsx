@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/login";
+import Profile from "./pages/profile";
 
 const App = () => {
   return (
@@ -10,11 +11,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/user/profile" element={<Profile />} /> */}
-        <Route path="*"  />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<div>Not Found</div>} />
       </Routes>
     </div>
-  )
-}
+  );
+};
 
 export default App;
