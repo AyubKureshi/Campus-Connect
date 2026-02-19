@@ -1,7 +1,8 @@
+import Login from '../src/pages/login';
 const App = () => {
   return (
     <div>
-      Welcome
+      <Login></Login>
     </div>
   )
 }
