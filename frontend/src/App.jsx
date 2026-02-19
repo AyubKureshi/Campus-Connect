@@ -5,9 +5,10 @@ import Login from "./pages/login";
 import Profile from "./pages/Project";
 import ProjectForm from "./pages/Project";
 
+
 const App = () => {
   return (
-    <div className="pt-24">
+    <div className="pt-18">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
