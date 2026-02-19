@@ -52,7 +52,7 @@ const Login = () => {
         )}
         <button
           type="submit"
-          className="cursor-pointer px-4 py-2 mt-3 bg-blue-400 rounded-lg"
+          className="cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg"
         >
           Login
         </button>

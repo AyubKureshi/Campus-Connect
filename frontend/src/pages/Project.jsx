@@ -38,91 +38,86 @@ function ProjectForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-2xl">
-        <h2 className="text-2xl font-semibold mb-6 text-center">
+    <div className="flex flex-col w-full h-full justify-center items-center bg-[#e9fbff] pb-6">
+      <h2 className="text-3xl font-bold mb-6">Create Project</h2>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-2 w-125 bg-white shadow-lg py-4 px-6 rounded-xl"
+      >
+        <label htmlFor="title" className="mt-3 font-semibold">
+          Project title:{" "}
+        </label>
+        <input
+          type="text"
+          name="title"
+          placeholder="Project Title"
+          value={formData.title}
+          onChange={handleChange}
+          className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
+        />
+        <label htmlFor="email" className="mt-3 font-semibold">
+          Description:{" "}
+        </label>
+        <textarea
+          name="description"
+          placeholder="Project Description"
+          rows="4"
+          value={formData.description}
+          onChange={handleChange}
+          className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
+        />
+        <label htmlFor="domain" className="mt-3 font-semibold">
+          Domain:{" "}
+        </label>
+        <input
+          type="text"
+          name="domain"
+          placeholder="Domain (AI, Web, Blockchain)"
+          value={formData.domain}
+          onChange={handleChange}
+          className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
+        />
+        <label htmlFor="techStack" className="mt-3 font-semibold">
+          Tech stack:{" "}
+        </label>
+        <input
+          type="text"
+          name="techStack"
+          placeholder="Tech Stack (comma separated)"
+          value={formData.techStack}
+          onChange={handleChange}
+          className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
+        />
+        <label htmlFor="requiredSkills" className="mt-3 font-semibold">
+          Required skills:{" "}
+        </label>
+        <input
+          type="text"
+          name="requiredSkills"
+          placeholder="Required Skills (comma separated)"
+          value={formData.requiredSkills}
+          onChange={handleChange}
+          className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
+        />
+        <label htmlFor="maxTeamSize" className="mt-3 font-semibold">
+          Max team size:{" "}
+        </label>
+        <input
+          type="number"
+          name="maxTeamSize"
+          placeholder="Max Team Size"
+          value={formData.maxTeamSize}
+          onChange={handleChange}
+          className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
+        />
+        <button
+          type="submit"
+          className="cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg"
+        >
           Create Project
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-
-          <input
-            type="text"
-            name="title"
-            placeholder="Project Title"
-            value={formData.title}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <textarea
-            name="description"
-            placeholder="Project Description"
-            rows="4"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <input
-            type="text"
-            name="domain"
-            placeholder="Domain (AI, Web, Blockchain)"
-            value={formData.domain}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <input
-            type="text"
-            name="techStack"
-            placeholder="Tech Stack (comma separated)"
-            value={formData.techStack}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <input
-            type="text"
-            name="requiredSkills"
-            placeholder="Required Skills (comma separated)"
-            value={formData.requiredSkills}
-            onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <div className="flex gap-4">
-            <input
-              type="number"
-              name="maxTeamSize"
-              placeholder="Max Team Size"
-              value={formData.maxTeamSize}
-              onChange={handleChange}
-              className="w-1/2 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-1/2 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="open">Open</option>
-              <option value="in-progress">In Progress</option>
-              <option value="completed">Completed</option>
-              <option value="closed">Closed</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-          >
-            Create Project
-          </button>
-
-        </form>
-      </div>
+        </button>
+      </form>
     </div>
   );
 }
