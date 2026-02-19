@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
+import ProjectForm from "./pages/Project";
+
 const App = () => {
   return (
     <div className="pt-18">
@@ -12,6 +14,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="/user/profile" element={<Profile />} /> */}
+        <Route path="/create" element={<ProjectForm/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

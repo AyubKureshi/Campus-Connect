@@ -13,6 +13,9 @@ const Navbar = () => {
         />
       </div>
       <div className="flex gap-4">
+          <Link to={"/create"} className="px-4 py-2 bg-blue-500 rounded-full">
+          Create
+        </Link>
         <Link to={"/login"} className="px-4 py-2 bg-blue-500 rounded-full">
           Login
         </Link>
