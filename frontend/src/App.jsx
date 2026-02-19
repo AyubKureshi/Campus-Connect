@@ -6,6 +6,8 @@ import Profile from "./pages/Project";
 import ProjectForm from "./pages/Project";
 
 
+import ProjectForm from "./pages/Project";
+
 const App = () => {
   return (
     <div className="pt-18">
