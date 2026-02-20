@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function ProjectForm() {
   const [formData, setFormData] = useState({
@@ -8,7 +9,7 @@ function ProjectForm() {
     techStack: "",
     requiredSkills: "",
     maxTeamSize: 5,
-    status: "open"
+    status: "open",
   });
 
   const handleChange = (e) => {
@@ -16,11 +17,11 @@ function ProjectForm() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formattedData = {
@@ -31,10 +32,23 @@ function ProjectForm() {
       requiredSkills: formData.requiredSkills
         ? formData.requiredSkills.split(",").map((s) => s.trim())
         : [],
-      maxTeamSize: Number(formData.maxTeamSize)
+      maxTeamSize: Number(formData.maxTeamSize),
     };
 
-    console.log(formattedData);
+    try {
+      const response = await fetch("http://localhost:4000/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formattedData),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -111,12 +125,12 @@ function ProjectForm() {
           onChange={handleChange}
           className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
         />
-        <button
-          type="submit"
-          className="cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg"
+        <Link
+          to={`/projects/${project._id}`}
+          className="inline-block cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg transition"
         >
-          Create Project
-        </button>
+          View Details
+        </Link>
       </form>
     </div>
   );
