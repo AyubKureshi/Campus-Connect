@@ -1,53 +1,61 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {BASE_URL} from "../config/config";
+import { BASE_URL } from "../config/config";
 import { useDispatch } from "react-redux";
 import { toastAction } from "../store/toastSlice";
+import { authAction } from "../store/authSlice";
 
 const Login = () => {
   const {
     register,
-    handleSubmit, 
-    formState: { errors, isSubmitting }, 
+    handleSubmit,
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`${BASE_URL}/users/login`, data);
-      console.log(response);
 
-      if(response.status === 200) {
-        const data = await response.data;
-        console.log(data);
-        localStorage.setItem('userToken', data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        dispatch(toastAction.showToast({
-          message: "Login Successfully", 
-          type: "success"
-        }));
-        navigate('/');
+      if (response.status === 200) {
+        const payload = response.data;
+
+        dispatch(
+          authAction.loginSuccess({
+            token: payload.token,
+            user: payload.user,
+          })
+        );
+
+        dispatch(
+          toastAction.showToast({
+            message: "Login Successfully",
+            type: "success",
+          })
+        );
+
+        navigate("/");
       } else {
-        console
-        dispatch(toastAction.showToast({
-          message: "Login failed", 
-          type: "error"
-        }));
+        dispatch(
+          toastAction.showToast({
+            message: "Login failed",
+            type: "error",
+          })
+        );
       }
     } catch (err) {
-      console.log(err);
       const msg = err?.response?.data?.message || err?.message || "Login failed";
-      dispatch(toastAction.showToast({
-        message: msg, 
-        type: "error"
-      }));
+      dispatch(
+        toastAction.showToast({
+          message: msg,
+          type: "error",
+        })
+      );
     }
-  }
-
+  };
 
   return (
     <div className="flex flex-col w-full h-[91vh] justify-center items-center bg-[#e9fbff]">
@@ -74,10 +82,6 @@ const Login = () => {
         <input
           {...register("password", {
             required: "Password is required",
-            minLength: {
-              value: 8,
-              message: "Password must be atleast 8 characters",
-            },
           })}
           type="password"
           placeholder="Password"
@@ -95,13 +99,13 @@ const Login = () => {
         </button>
         <p className="mt-2">
           Don't have an account?{" "}
-          <Link to={"/register"} className="text-blue-600">
+          <Link to="/register" className="text-blue-600">
             Register here
           </Link>
         </p>
       </form>
     </div>
   );
-}
+};
 
 export default Login;

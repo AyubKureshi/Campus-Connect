@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ProjectForm() {
   const [formData, setFormData] = useState({
@@ -21,35 +21,38 @@ function ProjectForm() {
     }));
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formattedData = {
-    ...formData,
-    techStack: formData.techStack
-      ? formData.techStack.split(",").map((t) => t.trim())
-      : [],
-    requiredSkills: formData.requiredSkills
-      ? formData.requiredSkills.split(",").map((s) => s.trim())
-      : [],
-    maxTeamSize: Number(formData.maxTeamSize)
+    const formattedData = {
+      ...formData,
+      techStack: formData.techStack
+        ? formData.techStack.split(",").map((t) => t.trim())
+        : [],
+      requiredSkills: formData.requiredSkills
+        ? formData.requiredSkills.split(",").map((s) => s.trim())
+        : [],
+      maxTeamSize: Number(formData.maxTeamSize)
+    };
+
+    try {
+      const response = await fetch("http://localhost:4000/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formattedData)
+      });
+
+      const data = await response.json();
+      console.log(data);
+      navigate('/');
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
-  try {
-    const response = await fetch("http://localhost:4000/projects", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formattedData)
-    });
-
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
 
   return (
     <div className="flex flex-col w-full h-full justify-center items-center bg-[#e9fbff] pb-6">
@@ -129,7 +132,7 @@ function ProjectForm() {
           type="submit"
           className="cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg"
         >
-          Create Project1
+          Create Project
         </button>
       </form>
     </div>
