@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function ProjectForm() {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ function ProjectForm() {
     techStack: "",
     requiredSkills: "",
     maxTeamSize: 5,
-    status: "open",
+    status: "open"
   });
 
   const handleChange = (e) => {
@@ -17,39 +17,39 @@ function ProjectForm() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const formattedData = {
-      ...formData,
-      techStack: formData.techStack
-        ? formData.techStack.split(",").map((t) => t.trim())
-        : [],
-      requiredSkills: formData.requiredSkills
-        ? formData.requiredSkills.split(",").map((s) => s.trim())
-        : [],
-      maxTeamSize: Number(formData.maxTeamSize),
-    };
-
-    try {
-      const response = await fetch("http://localhost:4000/projects", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formattedData),
-      });
-
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  const formattedData = {
+    ...formData,
+    techStack: formData.techStack
+      ? formData.techStack.split(",").map((t) => t.trim())
+      : [],
+    requiredSkills: formData.requiredSkills
+      ? formData.requiredSkills.split(",").map((s) => s.trim())
+      : [],
+    maxTeamSize: Number(formData.maxTeamSize)
   };
+
+  try {
+    const response = await fetch("http://localhost:4000/projects", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formattedData)
+    });
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
   return (
     <div className="flex flex-col w-full h-full justify-center items-center bg-[#e9fbff] pb-6">
@@ -125,12 +125,12 @@ function ProjectForm() {
           onChange={handleChange}
           className="focus-within:outline-red-600 focus-within:outline-2 rounded-lg py-2 px-4 outline outline-blue-200"
         />
-        <Link
-          to={`/projects/${project._id}`}
-          className="inline-block cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg transition"
+        <button
+          type="submit"
+          className="cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg"
         >
-          View Details
-        </Link>
+          Create Project
+        </button>
       </form>
     </div>
   );
