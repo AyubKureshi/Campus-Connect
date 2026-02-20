@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UserProtectedWrapper = ({ children }) => {
-  const token = localStorage.getItem("userToken");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { token, user } = useSelector((state) => state.auth);
 
   if (!token || !user) {
     return <Navigate to="/login" />;

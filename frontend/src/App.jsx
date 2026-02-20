@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import ProjectForm from "./pages/Project";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/footer"
+import UserProtectedWrapper from "./components/UserProtectedWrapper";
 
 const App = () => {
   return (
@@ -18,8 +19,22 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/user/profile" element={<Profile />} />
-        <Route path="/create" element={<ProjectForm />} />
+        <Route
+          path="/user/profile"
+          element={
+            <UserProtectedWrapper>
+              <Profile />
+            </UserProtectedWrapper>
+          }
+        />
+        <Route
+          path="/create"
+          element={
+            <UserProtectedWrapper>
+              <ProjectForm />
+            </UserProtectedWrapper>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer></Footer>

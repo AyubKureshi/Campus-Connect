@@ -43,8 +43,7 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-blue-50 py-12 px-6">
-      
+    <div className="min-h-screen bg-linear-to-br from-slate-100 to-blue-50 py-12 px-6">
       <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 tracking-tight">
         Explore Projects
       </h2>
@@ -56,7 +55,7 @@ function Home() {
             className="group bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100"
           >
             {/* Title */}
-            <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-blue-600 transition">
+            <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-blue-600 transition capitalize">
               {project.title}
             </h3>
 
@@ -68,8 +67,7 @@ function Home() {
             {/* Info Section */}
             <div className="space-y-2 text-sm text-gray-700">
               <p>
-                <span className="font-semibold">Domain:</span>{" "}
-                {project.domain}
+                <span className="font-semibold">Domain:</span> {project.domain}
               </p>
 
               <p>
@@ -85,10 +83,10 @@ function Home() {
                   project.status === "open"
                     ? "bg-green-100 text-green-700"
                     : project.status === "completed"
-                    ? "bg-blue-100 text-blue-700"
-                    : project.status === "in-progress"
-                    ? "bg-yellow-100 text-yellow-700"
-                    : "bg-gray-200 text-gray-700"
+                      ? "bg-blue-100 text-blue-700"
+                      : project.status === "in-progress"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-gray-200 text-gray-700"
                 }`}
               >
                 {project.status}

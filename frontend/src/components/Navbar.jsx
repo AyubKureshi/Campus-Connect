@@ -1,28 +1,20 @@
-import { useEffect } from "react";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../store/authSlice";
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, []);
+  const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
-    localStorage.removeItem("userToken");
-    localStorage.removeItem("user");
-    setUser(null);
+    dispatch(authAction.logout());
     navigate("/login");
   };
 
   return (
     <div className="fixed top-0 left-0 w-full flex items-center justify-between px-10 py-4 bg-white shadow-md">
-      <Link to={"/"} className="text-2xl font-bold text-blue-600 tracking-wide">
+      <Link to="/" className="text-2xl font-bold text-blue-600 tracking-wide">
         CC
       </Link>
 
@@ -35,12 +27,11 @@ const Navbar = () => {
       </div>
 
       <div className="flex gap-4">
-        {/* If user logged in */}
         {user ? (
           <>
             {user.role === "student" && (
               <Link
-                to={"/create"}
+                to="/create"
                 className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition duration-200"
               >
                 Create
@@ -48,7 +39,7 @@ const Navbar = () => {
             )}
 
             <Link
-              to={"/user/profile"}
+              to="/user/profile"
               className="px-5 py-2 rounded-full border border-blue-600 text-blue-600 text-sm font-medium hover:bg-blue-600 hover:text-white transition duration-200"
             >
               Profile
@@ -62,14 +53,12 @@ const Navbar = () => {
             </button>
           </>
         ) : (
-          <>
-            <Link
-              to={"/login"}
-              className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition duration-200"
-            >
-              Login
-            </Link>
-          </>
+          <Link
+            to="/login"
+            className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition duration-200"
+          >
+            Login
+          </Link>
         )}
       </div>
     </div>
