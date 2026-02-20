@@ -12,7 +12,7 @@ import UserProtectedWrapper from "./components/UserProtectedWrapper";
 
 const App = () => {
   return (
-    <div className="pt-18">
+    <div className="pt-18 bg-[#e9fbff]">
       <Alert />
       <Navbar />
       <Routes>
