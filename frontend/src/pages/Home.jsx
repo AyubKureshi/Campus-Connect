@@ -43,7 +43,7 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-100 to-blue-50 py-12 px-6">
+    <div className="min-h-screen py-12 px-6">
       <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 tracking-tight">
         Explore Projects
       </h2>
