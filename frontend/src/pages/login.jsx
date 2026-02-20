@@ -19,17 +19,20 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`${BASE_URL}/users/login`, data);
+      console.log(response);
 
-      if(response.status === 201) {
+      if(response.status === 200) {
         const data = await response.data;
+        console.log(data);
         localStorage.setItem('userToken', data.token);
-        localStorage.setItem('user', data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
         dispatch(toastAction.showToast({
           message: "Login Successfully", 
           type: "success"
         }));
         navigate('/');
       } else {
+        console
         dispatch(toastAction.showToast({
           message: "Login failed", 
           type: "error"

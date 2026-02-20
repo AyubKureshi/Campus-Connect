@@ -1,10 +1,15 @@
 import { Navigate } from "react-router-dom";
 
 const UserProtectedWrapper = ({ children }) => {
-  const userToken = localStorage.getItem("userToken");
+  const token = localStorage.getItem("userToken");
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  if (!userToken) {
-    return <Navigate to="/" replace />;
+  if (!token || !user) {
+    return <Navigate to="/login" />;
+  }
+
+  if (user.role !== "student") {
+    return <Navigate to="/unauthorized" />;
   }
 
   return children;
