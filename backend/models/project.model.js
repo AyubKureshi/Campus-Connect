@@ -1,107 +1,58 @@
-import { useState } from "react";
+const mongoose = require("mongoose");
 
-function ProjectForm() {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    domain: "",
-    techStack: "",
-    requiredSkills: "",
-    maxTeamSize: 5,
-    status: "open"
-  });
+const projectSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",          
+      required: true
+    },
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 3
+    },
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+    description: {
+      type: String,
+      required: true,
+      minlength: 10
+    },
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    domain: {
+      type: String,
+      trim: true
+    },
 
-    const formattedData = {
-      ...formData,
-      techStack: formData.techStack
-        ? formData.techStack.split(",").map((t) => t.trim())
-        : [],
-      requiredSkills: formData.requiredSkills
-        ? formData.requiredSkills.split(",").map((s) => s.trim())
-        : [],
-      maxTeamSize: Number(formData.maxTeamSize)
-    };
+    techStack: [
+      {
+        type: String,
+        trim: true
+      }
+    ],
 
-    console.log(formattedData);
-  };
+    requiredSkills: [
+      {
+        type: String,
+        trim: true
+      }
+    ],
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <h2>Create Project</h2>
+    maxTeamSize: {
+      type: Number,
+      default: 5,
+      min: 1
+    },
 
-      <input
-        type="text"
-        name="title"
-        placeholder="Project Title"
-        value={formData.title}
-        onChange={handleChange}
-      />
+    status: {
+      type: String,
+      enum: ["open", "in-progress", "completed", "closed"],
+      default: "open"
+    }
+  },
+  { timestamps: true }
+);
 
-      <textarea
-        name="description"
-        placeholder="Project Description"
-        value={formData.description}
-        onChange={handleChange}
-      />
-
-      <input
-        type="text"
-        name="domain"
-        placeholder="Domain (e.g. AI, Web, Blockchain)"
-        value={formData.domain}
-        onChange={handleChange}
-      />
-
-      <input
-        type="text"
-        name="techStack"
-        placeholder="Tech Stack (comma separated)"
-        value={formData.techStack}
-        onChange={handleChange}
-      />
-
-      <input
-        type="text"
-        name="requiredSkills"
-        placeholder="Required Skills (comma separated)"
-        value={formData.requiredSkills}
-        onChange={handleChange}
-      />
-
-      <input
-        type="number"
-        name="maxTeamSize"
-        placeholder="Max Team Size"
-        value={formData.maxTeamSize}
-        onChange={handleChange}
-      />
-
-      <select
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
-      >
-        <option value="open">Open</option>
-        <option value="in-progress">In Progress</option>
-        <option value="completed">Completed</option>
-        <option value="closed">Closed</option>
-      </select>
-
-      <button type="submit">Create Project</button>
-    </form>
-  );
-}
-
-export default ProjectForm;
+module.exports = mongoose.model("Project", projectSchema);
