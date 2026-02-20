@@ -3,7 +3,6 @@ const wrapAsync = require("../backend/utils/wrapasync.js");
 const connectToDb = require("./db/dbConnect");
 const cors = require("cors");
 const Project = require("./models/project.model.js");
-const connectToDb = require('./db/dbConnect');
 const userRouter = require('./routes/user.router');
 
 const app = express();

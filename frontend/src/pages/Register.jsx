@@ -17,7 +17,7 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${BASE_URL}/users/login`, data);
+      const response = await axios.post(`${BASE_URL}/users/register`, data);
 
       if (response.status === 201) {
         dispatch(
