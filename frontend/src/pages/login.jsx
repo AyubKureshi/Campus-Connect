@@ -1,15 +1,48 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import {BASE_URL} from "../config/config";
+import { useDispatch } from "react-redux";
+import { toastAction } from "../store/toastSlice";
 
 const Login = () => {
   const {
     register,
     handleSubmit, 
-    formState: { errors }, 
+    formState: { errors, isSubmitting }, 
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/users/login`, data);
+
+      if(response.status === 201) {
+        const data = await response.data;
+        localStorage.setItem('userToken', data.token);
+        localStorage.setItem('user', data.user);
+        dispatch(toastAction.showToast({
+          message: "Login Successfully", 
+          type: "success"
+        }));
+        navigate('/');
+      } else {
+        dispatch(toastAction.showToast({
+          message: "Login failed", 
+          type: "error"
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+      const msg = err?.response?.data?.message || err?.message || "Login failed";
+      dispatch(toastAction.showToast({
+        message: msg, 
+        type: "error"
+      }));
+    }
   }
 
 
@@ -52,6 +85,7 @@ const Login = () => {
         )}
         <button
           type="submit"
+          disabled={isSubmitting}
           className="cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg"
         >
           Login

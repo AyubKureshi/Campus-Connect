@@ -1,15 +1,45 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { BASE_URL } from "../config/config";
+import { toastAction } from "../store/toastSlice";
 
 const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/users/login`, data);
+
+      if (response.status === 201) {
+        dispatch(
+          toastAction.showToast({
+            message: "Registration successful. Please login.",
+            type: "success",
+          })
+        );
+        navigate("/login");
+      } else {
+        dispatch(
+          toastAction.showToast({
+            message: response?.data?.message || "Registration failed",
+            type: "error",
+          })
+        );
+      }
+    } catch (err) {
+      const msg =
+        err?.response?.data?.message || err?.message || "Registration failed";
+      dispatch(toastAction.showToast({ message: msg, type: "error" }));
+    }
   };
 
   return (
@@ -96,12 +126,16 @@ const Register = () => {
             {errors.confirmPassword.message}
           </p>
         )}
-        <button type="submit" className="cursor-pointer px-4 py-2 mt-3 bg-blue-400 rounded-lg">
+        <button
+          disabled={isSubmitting}
+          type="submit"
+          className="cursor-pointer px-4 py-2 mt-3 bg-blue-400 rounded-lg"
+        >
           Register
         </button>
         <p className="mt-2">
           Already have an account?{" "}
-          <Link to={"/register"} className="text-blue-600">
+          <Link to="/register" className="text-blue-600">
             Login here
           </Link>
         </p>
