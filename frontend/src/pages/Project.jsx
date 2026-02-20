@@ -129,7 +129,7 @@ function ProjectForm() {
           type="submit"
           className="cursor-pointer px-4 py-2 mt-3 text-white bg-blue-400 hover:bg-blue-600 rounded-lg"
         >
-          Create Project
+          Create Project1
         </button>
       </form>
     </div>
