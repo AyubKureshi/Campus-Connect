@@ -23,7 +23,7 @@ module.exports.createUser = async ({firstName, lastName, email, password}) => {
   if(!firstName || !email || !password) {
     throw new Error('All fields are required');
   }
-  const hashedPassword = await this.hashPassword(password);
+  const hashedPassword = await module.exports.hashPassword(password);
   const user = await User.create({
     fullName: {
       firstName, lastName

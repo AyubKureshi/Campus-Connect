@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/projects", projectRouter);
 app.use("/users", userRouter);
+app.use("/projects", projectRouter);
 
 module.exports = app;

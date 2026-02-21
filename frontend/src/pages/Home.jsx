@@ -17,7 +17,7 @@ function Home() {
         }
 
         const data = await response.json();
-        setProjects(data);``
+        setProjects(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -45,7 +45,7 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen py-12 px-6 bg-gradient-to-b from-slate-50 to-blue-50">
+    <div className="min-h-screen py-12 px-6 bg-linear-to-b from-slate-50 to-blue-50">
       <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 tracking-tight">
         Explore Projects
       </h2>

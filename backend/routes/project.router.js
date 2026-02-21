@@ -12,9 +12,9 @@ router.get("/", wrapAsync(projectController.getAllProjects));
 router.post("/create-project", authUser, validateProject, wrapAsync(projectController.createProject));
 
 // GET single project
+router.get("/user-projects",authUser,wrapAsync(projectController.getUserProjects));
 router.get("/:id", wrapAsync(projectController.getSingleProject));
 
 // GET user projects
-router.get("/user-projects",authUser,wrapAsync(projectController.getUserProject));
 
 module.exports = router;

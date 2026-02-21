@@ -36,14 +36,16 @@ const userSchema = new mongoose.Schema({
         default: ""
     },
     github: { 
-        type: String, 
-        unique: true,
-        sparse: true,
+        type: String,
+        trim: true,
+        default: undefined,
+        set: (value) => (value == null || value === "" ? undefined : value),
     }, 
     linkedin: { 
-        type: String, 
-        unique: true,
-        sparse: true,
+        type: String,
+        trim: true,
+        default: undefined,
+        set: (value) => (value == null || value === "" ? undefined : value),
     }, 
     role: {
         type: String,
@@ -56,5 +58,21 @@ const userSchema = new mongoose.Schema({
         default: "open"
     },
 });
+
+userSchema.index(
+    { github: 1 },
+    {
+        unique: true,
+        partialFilterExpression: { github: { $type: "string" } },
+    },
+);
+
+userSchema.index(
+    { linkedin: 1 },
+    {
+        unique: true,
+        partialFilterExpression: { linkedin: { $type: "string" } },
+    },
+);
 
 module.exports = mongoose.model("User", userSchema);
