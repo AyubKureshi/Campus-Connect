@@ -1,9 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { BASE_URL } from "../config/config";
+import { toastAction } from "../store/toastSlice";
 
 function ProjectForm() {
   const navigate = useNavigate();
+  const tokenFromStore = useSelector((state) => state.auth.token);
+
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     title: Yup.string()
@@ -50,16 +57,43 @@ function ProjectForm() {
       };
 
       try {
-        const response = await fetch("http://localhost:4000/projects", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formattedData),
-        });
+        const token = tokenFromStore || localStorage.getItem("userToken");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
 
-        await response.json();
-        navigate("/");
+        const response = await axios.post(
+          `${BASE_URL}/projects/create-project`,
+          formattedData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (response.status === 201) {
+          dispatch(toastAction.showToast({
+            message: "Project created successfully", 
+            type: "success"
+          }));
+          navigate("/");
+        } else {
+          dispatch(
+            toastAction.showToast({
+              message: "Server error",
+              type: "error",
+            }),
+          );
+        }
       } catch (error) {
-        console.error("Error:", error);
+        dispatch(
+          toastAction.showToast({
+            message: "Creation failed",
+            type: "error",
+          }),
+        );
       }
     },
   });
