@@ -1,0 +1,32 @@
+const Project = require("../models/project.model");
+
+
+// Get all projects
+exports.getAllProjects = async (req, res) => {
+  const projects = await Project.find();
+  res.json(projects);
+};
+
+// Create new project
+exports.createProject = async (req, res) => {
+  const newProject = new Project(req.body);
+  const savedProject = await newProject.save();
+
+  res.status(201).json({
+    message: "Project created successfully",
+    project: savedProject,
+  });
+};
+
+// Get single project
+exports.getSingleProject = async (req, res) => {
+  const { id } = req.params;
+
+  const project = await Project.findById(id);
+
+  if (!project) {
+    return res.status(404).json({ message: "Project not found" });
+  }
+
+  res.json(project);
+};

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [projects, setProjects] = useState([]);
@@ -43,7 +44,7 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen py-12 px-6">
+    <div className="min-h-screen py-12 px-6 bg-gradient-to-b from-slate-50 to-blue-50">
       <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 tracking-tight">
         Explore Projects
       </h2>
@@ -83,20 +84,24 @@ function Home() {
                   project.status === "open"
                     ? "bg-green-100 text-green-700"
                     : project.status === "completed"
-                      ? "bg-blue-100 text-blue-700"
-                      : project.status === "in-progress"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-gray-200 text-gray-700"
+                    ? "bg-blue-100 text-blue-700"
+                    : project.status === "in-progress"
+                    ? "bg-yellow-100 text-yellow-700"
+                    : "bg-gray-200 text-gray-700"
                 }`}
               >
                 {project.status}
               </span>
             </div>
 
-            {/* Button */}
-            <button className="mt-6 w-full py-2 rounded-lg bg-blue-500 text-white font-medium transition-all duration-300 hover:bg-blue-600 hover:shadow-md">
-              View Details
-            </button>
+            <div className="mt-6 flex gap-3">
+              <Link
+                to={`/projects/${project._id}`}
+                className="flex-1 text-center py-2 rounded-lg bg-blue-500 text-white font-medium transition-all duration-300 hover:bg-blue-600 hover:shadow-md"
+              >
+                View Details
+              </Link>
+            </div>
           </div>
         ))}
       </div>

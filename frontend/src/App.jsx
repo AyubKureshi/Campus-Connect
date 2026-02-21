@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import ProjectForm from "./pages/Project";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/footer"
+import ProjectDetails from "./pages/ProjectDetail";
 import UserProtectedWrapper from "./components/UserProtectedWrapper";
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
           }
         />
         <Route path="*" element={<NotFound />} />
+        <Route path="/projects/:id" element={<ProjectDetails/>} />
       </Routes>
       <Footer></Footer>
     </div>
