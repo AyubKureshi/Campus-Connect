@@ -14,5 +14,7 @@ router.post("/create-project", authUser, validateProject, wrapAsync(projectContr
 // GET single project
 router.get("/:id", wrapAsync(projectController.getSingleProject));
 
+// GET user projects
+router.get("/user-projects",authUser,wrapAsync(projectController.getUserProject));
 
 module.exports = router;

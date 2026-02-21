@@ -35,3 +35,17 @@ exports.getSingleProject = async (req, res) => {
 
   res.json(project);
 };
+
+exports.getUserProjects = async (req, res) => {
+  const { userId } = req.user.id;
+
+  const projects = await Project.find({ user: userId });
+
+  if (!projects.length) {
+    return res.status(404).json({
+      message: "No projects found for this user"
+    });
+  }
+
+  res.json(projects);
+};
