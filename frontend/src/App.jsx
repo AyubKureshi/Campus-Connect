@@ -7,7 +7,8 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ProjectForm from "./pages/Project";
 import NotFound from "./pages/NotFound";
-import Footer from "./components/footer";
+import Footer from "./components/footer"
+import ProjectDetails from "./pages/ProjectDetail";
 import UserProtectedWrapper from "./components/UserProtectedWrapper";
 import EditProfile from "./pages/EditProfile";
 
@@ -45,6 +46,7 @@ const App = () => {
               </UserProtectedWrapper>
             }
           />
+          <Route path="/projects/:id" element={<ProjectDetails />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
