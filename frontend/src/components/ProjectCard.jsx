@@ -1,9 +1,7 @@
 import {Link} from "react-router-dom"
-function ProjectCard({project}) {
+function ProjectCard({ project, showActions = false }) {
   return (
-    <div
-      className="group bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100"
-    >
+    <div className="group bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100">
       {/* Title */}
       <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-blue-600 transition capitalize">
         {project.title}
@@ -44,12 +42,19 @@ function ProjectCard({project}) {
       </div>
 
       <div className="mt-6 flex gap-3">
-        <Link
+        {showActions ? (
+          <>
+            <button className="px-4 py-2 border border-blue-600">Edit</button>
+            <button>Delete</button>
+          </>
+        ) : (
+          <Link
           to={`/projects/${project._id}`}
           className="flex-1 text-center py-2 rounded-lg bg-blue-500 text-white font-medium transition-all duration-300 hover:bg-blue-600 hover:shadow-md"
         >
           View Details
         </Link>
+        )}
       </div>
     </div>
   );
