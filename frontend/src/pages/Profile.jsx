@@ -1,10 +1,14 @@
 import { Github, Linkedin, Mail, MapPin, PencilLine } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchCurrentUser } from "../store/userSlice";
+import axios from "axios";
+import { BASE_URL } from "../config/config";
+import ProjectCard from "../components/ProjectCard";
 
 const Profile = () => {
+  const [projects, setProjects] = useState(null);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { profile, loading, error } = useSelector((state) => state.user);
@@ -14,6 +18,24 @@ const Profile = () => {
       dispatch(fetchCurrentUser());
     }
   }, [dispatch, token]);
+
+  useEffect(() => {
+    async function fetchUserProjects() {
+      const response = await axios.get(
+        `${BASE_URL}/projects/user-projects`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        },
+      );
+      const data = await response.data;
+      console.log(data);
+      setProjects(data);
+    }
+
+    fetchUserProjects();
+  }, [token]);
 
   const displayName = [profile?.fullName?.firstName, profile?.fullName?.lastName]
     .filter(Boolean)
@@ -95,6 +117,12 @@ const Profile = () => {
                 {error || "Loading profile..."}
               </p>
             )}
+          </div>
+
+          <div>
+            {projects.map((project) => {
+              <ProjectCard key={project._id} project={project} showActions={true} />
+            })}
           </div>
 
           <div className="group rounded-2xl border border-slate-100 bg-linear-to-br from-white to-slate-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
