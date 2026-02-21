@@ -8,7 +8,9 @@ import { BASE_URL } from "../config/config";
 import ProjectCard from "../components/ProjectCard";
 
 const Profile = () => {
-  const [projects, setProjects] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [projectsLoading, setProjectsLoading] = useState(false);
+  const [projectsError, setProjectsError] = useState("");
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { profile, loading, error } = useSelector((state) => state.user);
@@ -21,17 +23,24 @@ const Profile = () => {
 
   useEffect(() => {
     async function fetchUserProjects() {
-      const response = await axios.get(
-        `${BASE_URL}/projects/user-projects`,
-        {
+      if (!token) return;
+      setProjectsLoading(true);
+      setProjectsError("");
+
+      try {
+        const response = await axios.get(`${BASE_URL}/projects/user-projects`, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
-        },
-      );
-      const data = await response.data;
-      console.log(data);
-      setProjects(data);
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProjects(response.data || []);
+      } catch (err) {
+        const message =
+          err?.response?.data?.message || "Failed to load your projects";
+        setProjectsError(message);
+      } finally {
+        setProjectsLoading(false);
+      }
     }
 
     fetchUserProjects();
@@ -120,37 +129,24 @@ const Profile = () => {
           </div>
 
           <div>
-            {projects.map((project) => {
-              <ProjectCard key={project._id} project={project} showActions={true} />
-            })}
-          </div>
-
-          <div className="group rounded-2xl border border-slate-100 bg-linear-to-br from-white to-slate-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
-            <h3 className="mb-3 text-xl font-semibold text-slate-800 transition group-hover:text-blue-700 capitalize">
-              Campus connect
-            </h3>
-            <p className="mb-4 text-sm text-slate-600 line-clamp-3">
-              It&apos;s going to be a group project where we collaborate on github
-            </p>
-
-            <div className="space-y-2 text-sm text-slate-700">
-              <p>
-                <span className="font-semibold">Domain:</span> MERN Stack
-              </p>
-              <p>
-                <span className="font-semibold">Team Size:</span> 4
-              </p>
+            {projectsLoading && (
+              <p className="text-sm text-slate-500">Loading projects...</p>
+            )}
+            {projectsError && (
+              <p className="text-sm text-red-600">{projectsError}</p>
+            )}
+            {!projectsLoading && !projectsError && projects.length === 0 && (
+              <p className="text-sm text-slate-500">No projects yet.</p>
+            )}
+            <div className="grid gap-4">
+              {projects.map((project) => (
+                <ProjectCard
+                  key={project._id}
+                  project={project}
+                  showActions={true}
+                />
+              ))}
             </div>
-
-            <div className="mt-4">
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-                open
-              </span>
-            </div>
-
-            <button className="mt-6 w-full rounded-xl bg-blue-600 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700">
-              View Details
-            </button>
           </div>
         </section>
       </div>

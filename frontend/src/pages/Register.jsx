@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { BASE_URL } from "../config/config";
 import { toastAction } from "../store/toastSlice";
+import { authAction } from "../store/authSlice";
+import { userAction } from "../store/userSlice";
 
 const Register = () => {
   const {
@@ -27,19 +29,27 @@ const Register = () => {
       const response = await axios.post(`${BASE_URL}/users/register`, data);
 
       if (response.status === 201) {
+        const payload = response.data;
+        dispatch(
+          authAction.loginSuccess({
+            token: payload.token,
+            user: payload.user,
+          }),
+        );
+        dispatch(userAction.setProfileFromAuth(payload.user));
         dispatch(
           toastAction.showToast({
-            message: "Registration successful. Please login.",
+            message: "Registration successful",
             type: "success",
-          })
+          }),
         );
-        navigate("/login");
+        navigate("/");
       } else {
         dispatch(
           toastAction.showToast({
             message: response?.data?.message || "Registration failed",
             type: "error",
-          })
+          }),
         );
       }
     } catch (err) {
@@ -59,13 +69,20 @@ const Register = () => {
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue-100 text-blue-700">
             <ShieldPlus size={22} />
           </div>
-          <h2 className="mt-3 text-3xl font-extrabold text-slate-800">Create Account</h2>
-          <p className="mt-1 text-sm text-slate-600">Register on Campus Connect and start collaborating.</p>
+          <h2 className="mt-3 text-3xl font-extrabold text-slate-800">
+            Create Account
+          </h2>
+          <p className="mt-1 text-sm text-slate-600">
+            Register on Campus Connect and start collaborating.
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label htmlFor="name" className="mb-2 block text-sm font-semibold text-slate-700">
+            <label
+              htmlFor="name"
+              className="mb-2 block text-sm font-semibold text-slate-700"
+            >
               Name
             </label>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -95,30 +112,42 @@ const Register = () => {
               </div>
             </div>
             {errors.firstName && (
-              <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.firstName.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="email" className="mb-2 block text-sm font-semibold text-slate-700">
+            <label
+              htmlFor="email"
+              className="mb-2 block text-sm font-semibold text-slate-700"
+            >
               Email
             </label>
             <div className="flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-3 transition focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-200">
               <Mail size={16} className="text-blue-500" />
               <input
-                {...register("email", { required: "Email Address is required" })}
+                {...register("email", {
+                  required: "Email Address is required",
+                })}
                 type="email"
                 placeholder="Enter email"
                 className="w-full bg-transparent py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
               />
             </div>
             {errors.email && (
-              <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="password" className="mb-2 block text-sm font-semibold text-slate-700">
+            <label
+              htmlFor="password"
+              className="mb-2 block text-sm font-semibold text-slate-700"
+            >
               Password
             </label>
             <div className="flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-3 transition focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-200">
@@ -137,12 +166,17 @@ const Register = () => {
               />
             </div>
             {errors.password && (
-              <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="mb-2 block text-sm font-semibold text-slate-700">
+            <label
+              htmlFor="confirmPassword"
+              className="mb-2 block text-sm font-semibold text-slate-700"
+            >
               Confirm Password
             </label>
             <div className="flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-3 transition focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-200">
@@ -161,7 +195,9 @@ const Register = () => {
               />
             </div>
             {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.confirmPassword.message}
+              </p>
             )}
           </div>
 
@@ -175,7 +211,10 @@ const Register = () => {
 
           <p className="pt-1 text-center text-sm text-slate-600">
             Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-blue-600 hover:text-blue-700">
+            <Link
+              to="/login"
+              className="font-semibold text-blue-600 hover:text-blue-700"
+            >
               Login here
             </Link>
           </p>

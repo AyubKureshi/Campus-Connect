@@ -33,7 +33,9 @@ module.exports.postRegister = async (req, res, next) => {
   }
 
   const newUser = await userService.createUser({ firstName, lastName, email, password });
-  return res.status(201).json({ message: "Registration Successful", newUser });
+  const token = userService.generateAuthToken(newUser);
+  newUser.password = undefined;
+  return res.status(201).json({ message: "Registration Successful", user: newUser, token });
 }
 
 module.exports.getCurrentUser = async (req, res, next) => {
@@ -65,11 +67,13 @@ module.exports.updateCurrentUser = async (req, res, next) => {
   }
 
   if (typeof github === "string") {
-    updatePayload.github = github.trim();
+    const githubValue = github.trim();
+    updatePayload.github = githubValue || undefined;
   }
 
   if (typeof linkedin === "string") {
-    updatePayload.linkedin = linkedin.trim();
+    const linkedinValue = linkedin.trim();
+    updatePayload.linkedin = linkedinValue || undefined;
   }
 
   if (Array.isArray(skills)) {
