@@ -33,8 +33,6 @@ const projectSchema = Joi.object({
     status: Joi.string()
       .valid("open", "in-progress", "completed", "closed")
       .default("open"),
-
-    user: Joi.string().optional() 
   }).required()
 });
 
