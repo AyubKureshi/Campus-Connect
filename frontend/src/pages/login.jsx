@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { KeyRound, LogIn, Mail, ShieldCheck } from "lucide-react";
 import { toastAction } from "../store/toastSlice";
 import { authAction } from "../store/authSlice";
+import { userAction } from "../store/userSlice";
 
 const Login = () => {
   const {
@@ -30,6 +31,7 @@ const Login = () => {
             user: payload.user,
           })
         );
+        dispatch(userAction.setProfileFromAuth(payload.user));
 
         dispatch(
           toastAction.showToast({

@@ -24,6 +24,19 @@ const authSlice = createSlice({
       localStorage.removeItem("userToken");
       localStorage.removeItem("user");
     },
+    setAuthUser: (state, action) => {
+      state.user = action.payload || null;
+
+      if (state.user) {
+        localStorage.setItem("user", JSON.stringify(state.user));
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase("user/updateCurrentUser/fulfilled", (state, action) => {
+      state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    });
   },
 });
 

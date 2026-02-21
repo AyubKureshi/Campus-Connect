@@ -30,13 +30,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true
     }],
+    location: {
+        type: String,
+        trim: true,
+        default: ""
+    },
     github: { 
         type: String, 
-        unique: true 
+        unique: true,
+        sparse: true,
     }, 
     linkedin: { 
         type: String, 
-        unique: true 
+        unique: true,
+        sparse: true,
     }, 
     role: {
         type: String,
