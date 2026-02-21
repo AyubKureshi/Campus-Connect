@@ -16,7 +16,7 @@ function Home() {
         }
 
         const data = await response.json();
-        setProjects(data);
+        setProjects(data);``
       } catch (err) {
         setError(err.message);
       } finally {

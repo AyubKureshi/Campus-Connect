@@ -9,7 +9,12 @@ exports.getAllProjects = async (req, res) => {
 
 // Create new project
 exports.createProject = async (req, res) => {
-  const newProject = new Project(req.body);
+  const { title, description, domain, techStack, requiredSkills, maxTeamSize, status } = req.body;
+
+  const newProject = new Project({ 
+    title, description, domain, techStack, requiredSkills, maxTeamSize, status, userId: req.user.id || req.user._id 
+  });
+  
   const savedProject = await newProject.save();
 
   res.status(201).json({

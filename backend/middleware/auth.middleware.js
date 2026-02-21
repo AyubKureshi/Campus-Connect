@@ -5,7 +5,7 @@ module.exports.authUser = (req, res, next) => {
   const token =
     authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
 
-  if (!token) {
+  if (!token || token === "null" || token === "undefined") {
     return res.status(401).json({ message: "Unauthorized: token missing" });
   }
 
