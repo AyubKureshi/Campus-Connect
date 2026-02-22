@@ -1,6 +1,5 @@
 const Project = require("../models/project.model");
 
-
 // Get all projects
 exports.getAllProjects = async (req, res) => {
   const projects = await Project.find();
@@ -9,12 +8,27 @@ exports.getAllProjects = async (req, res) => {
 
 // Create new project
 exports.createProject = async (req, res) => {
-  const { title, description, domain, techStack, requiredSkills, maxTeamSize, status } = req.body;
+  const {
+    title,
+    description,
+    domain,
+    techStack,
+    requiredSkills,
+    maxTeamSize,
+    status,
+  } = req.body;
 
-  const newProject = new Project({ 
-    title, description, domain, techStack, requiredSkills, maxTeamSize, status, userId: req.user.id || req.user._id 
+  const newProject = new Project({
+    title,
+    description,
+    domain,
+    techStack,
+    requiredSkills,
+    maxTeamSize,
+    status,
+    userId: req.user.id || req.user._id,
   });
-  
+
   const savedProject = await newProject.save();
 
   res.status(201).json({
@@ -40,4 +54,53 @@ exports.getUserProjects = async (req, res) => {
   const userId = req.user.id || req.user._id;
   const projects = await Project.find({ userId });
   res.status(200).json(projects);
+};
+
+exports.updateProject = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id || req.user._id;
+
+  const project = await Project.findById(id);
+
+  if (!project) {
+    return res.status(404).json({ message: "Project not found" });
+  }
+
+  if (project.userId.toString() !== userId.toString()) {
+    return res.status(403).json({
+      message: "You are not authorized to edit this project",
+    });
+  }
+
+  const updatedProject = await Project.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+
+  res.json({
+    message: "Project updated successfully",
+    project: updatedProject,
+  });
+};
+
+exports.deleteProject = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id || req.user._id;
+
+  const project = await Project.findById(id);
+
+  if (!project) {
+    return res.status(404).json({ message: "Project not found" });
+  }
+
+  if (project.userId.toString() !== userId.toString()) {
+    return res.status(403).json({
+      message: "You are not authorized to delete this project",
+    });
+  }
+
+  await Project.findByIdAndDelete(id);
+
+  res.json({
+    message: "Project deleted successfully",
+  });
 };
