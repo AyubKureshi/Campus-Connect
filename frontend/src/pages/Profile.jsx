@@ -55,6 +55,22 @@ const Profile = () => {
     ? profile.skills.join(", ")
     : "No skills added";
 
+  const handleProjectUpdated = (updatedProject) => {
+    if (!updatedProject?._id) return;
+    setProjects((prevProjects) =>
+      prevProjects.map((item) =>
+        item._id === updatedProject._id ? updatedProject : item,
+      ),
+    );
+  };
+
+  const handleProjectDeleted = (deletedProjectId) => {
+    if (!deletedProjectId) return;
+    setProjects((prevProjects) =>
+      prevProjects.filter((item) => item._id !== deletedProjectId),
+    );
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-b from-sky-50 via-blue-50/30 to-white px-4 py-8 sm:px-8 lg:px-12">
       <div className="mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-[340px_1fr]">
@@ -144,6 +160,8 @@ const Profile = () => {
                   key={project._id}
                   project={project}
                   showActions={true}
+                  onUpdated={handleProjectUpdated}
+                  onDeleted={handleProjectDeleted}
                 />
               ))}
             </div>
