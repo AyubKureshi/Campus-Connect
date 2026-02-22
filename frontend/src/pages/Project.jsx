@@ -99,19 +99,34 @@ function ProjectForm() {
   });
 
   const inputStyle = (field) =>
-    `w-full rounded-xl border px-4 py-2.5 text-sm transition focus:outline-none focus:ring-2
+    `w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 transition focus:outline-none focus:ring-4
      ${
        formik.touched[field] && formik.errors[field]
-         ? "border-red-400 focus:ring-red-200"
-         : "border-blue-200 focus:ring-blue-200"
+         ? "border-red-400 focus:ring-red-100"
+         : "border-blue-200 focus:border-blue-400 focus:ring-blue-100"
      }`;
 
   return (
-    <div className="relative min-h-[90vh] bg-sky-50 px-4 py-10 sm:px-6">
-      <div className="mx-auto w-full max-w-4xl">
+    <div className="relative min-h-[90vh] overflow-hidden bg-sky-50 px-4 py-10 sm:px-6">
+      <div className="pointer-events-none absolute -left-24 top-14 h-64 w-64 rounded-full bg-blue-200/60 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 bottom-10 h-64 w-64 rounded-full bg-cyan-200/70 blur-3xl" />
+
+      <div className="relative z-10 mx-auto w-full max-w-4xl">
+        <div className="mb-6 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-blue-500">
+            Project
+          </p>
+          <h1 className="mt-2 text-3xl font-black text-blue-600 sm:text-4xl">
+            Create New Project
+          </h1>
+          <p className="mt-2 text-sm text-slate-600 sm:text-base">
+            Add details to publish your project and start collaborating.
+          </p>
+        </div>
+
         <form
           onSubmit={formik.handleSubmit}
-          className="rounded-3xl border border-blue-100 bg-white p-6 shadow-xl sm:p-8"
+          className="rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-xl backdrop-blur-sm sm:p-8"
         >
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
@@ -130,7 +145,7 @@ function ProjectForm() {
                 className={inputStyle("title")}
               />
               {formik.touched.title && formik.errors.title && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {formik.errors.title}
                 </p>
               )}
@@ -151,7 +166,7 @@ function ProjectForm() {
                 className={inputStyle("description")}
               />
               {formik.touched.description && formik.errors.description && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {formik.errors.description}
                 </p>
               )}
@@ -172,7 +187,7 @@ function ProjectForm() {
                 className={inputStyle("domain")}
               />
               {formik.touched.domain && formik.errors.domain && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {formik.errors.domain}
                 </p>
               )}
@@ -193,7 +208,7 @@ function ProjectForm() {
                 className={inputStyle("maxTeamSize")}
               />
               {formik.touched.maxTeamSize && formik.errors.maxTeamSize && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {formik.errors.maxTeamSize}
                 </p>
               )}
@@ -214,7 +229,7 @@ function ProjectForm() {
                 className={inputStyle("techStack")}
               />
               {formik.touched.techStack && formik.errors.techStack && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="mt-1 text-xs text-red-500">
                   {formik.errors.techStack}
                 </p>
               )}
@@ -236,7 +251,7 @@ function ProjectForm() {
               />
               {formik.touched.requiredSkills &&
                 formik.errors.requiredSkills && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="mt-1 text-xs text-red-500">
                     {formik.errors.requiredSkills}
                   </p>
                 )}
@@ -246,7 +261,7 @@ function ProjectForm() {
           <div className="mt-7 flex justify-end">
             <button
               type="submit"
-              className="rounded-full bg-blue-600 px-7 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+              className="rounded-full bg-blue-600 px-7 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
             >
               Create Project
             </button>
